@@ -6,8 +6,8 @@ import os
 from dotenv import load_dotenv
 import requests
 import json
-
-
+import pdb
+import urllib.parse
 
 load_dotenv(override=True)
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -35,5 +35,20 @@ async def func(interaction: discord.Interaction):
 async def func(interaction: discord.Interaction):
     response = requests.get("https://crunchy.garden/api/hello")
     await interaction.response.send_message(response.json())
+
+
+# @client.tree.command(name="crunchy")
+# async def func(interaction: discord.Interaction):
+#     response = requests.get("https://crunchy.garden/api/hello")
+#     await interaction.response.send_message(response.json())
+
+
+@client.tree.command(name="crunchy")
+async def func(interaction: discord.Interaction, arg1: str):
+    print(arg1)
+    # breakpoint()
+    response = requests.get(f"https://crunchy.garden/api/echo-plus?message={arg1}")
+    await interaction.response.send_message(response.json())
+
 
 client.run(TOKEN)
