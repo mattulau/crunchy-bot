@@ -5,7 +5,6 @@ import certifi
 import os
 from dotenv import load_dotenv
 import requests
-import json
 import pdb
 import urllib.parse
 
@@ -44,11 +43,15 @@ async def func(interaction: discord.Interaction):
 
 
 @client.tree.command(name="crunchy")
-async def func(interaction: discord.Interaction, arg1: str):
-    print(arg1)
-    # breakpoint()
-    response = requests.get(f"https://crunchy.garden/api/echo-plus?message={arg1}")
-    await interaction.response.send_message(response.json())
+async def func(interaction: discord.Interaction, prompt: str):
+    await interaction.response.defer()
+    print(prompt)
+    response = requests.get(f"https://crunchy.garden/api/agent-reply?message={prompt}")
+    response_obj = response.json()
+    print(response_obj)
+    # reply = """{"reply": "Hello! Thank you for reaching out. It seems like you may have a typo in your message, but that's okay! To answer your question, my day has been going well. As someone who is passionate about sustainability and gardening, I have been busy researching ways to help individuals cultivate eco-friendly and thriving gardens. In terms of sustainability, I have been looking into practices such as composting, water conservation, and reducing waste in the garden. Composting is a great way to recycle organic matter and create nutrient-rich soil for plants. Additionally, using rainwater harvesting techniques can help reduce water usage and provide a natural source of irrigation for your garden. When it comes to gardening, I have been studying various planting techniques, soil health, and pest management strategies. Crop rotation, companion planting, and using organic fertilizers are just a few ways to promote healthy plant growth and maximize yields in the garden. Furthermore, using natural predators and organic pesticides can help control pests without harming beneficial insects or the environment. "}"""
+    # await interaction.response.send_message(response_obj["reply"])
+    await interaction.edit_original_response(content=response_obj["reply"])
 
 
 client.run(TOKEN)
