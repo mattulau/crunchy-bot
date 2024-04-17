@@ -47,7 +47,7 @@ async def func(interaction: discord.Interaction, prompt: str):
 @client.event
 async def on_message(message):
     if client.user.mentioned_in(message):
-        question = message.content.split(" ")[1]
+        question = message.content.split(" ")
         response = requests.get(f"https://crunchy.garden/api/agent-reply?message={question}")
         response_obj = response.json()
         actual_res = response_obj["reply"]
