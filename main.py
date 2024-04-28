@@ -26,6 +26,9 @@ async def on_ready():
         print(F'Synced {len(synced)} tree commands.')
     except Exception as e:
         print(F'Could Not Sync Tree: {e}')
+    await client.change_presence(activity=discord.Game(name="Gardening Simulator"))
+
+
 @client.tree.command(name="test")
 async def func(interaction: discord.Interaction):
     await interaction.response.send_message("Hello World!")
